@@ -1,23 +1,22 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS  
 from cerebras.cloud.sdk import Cerebras
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app) 
 
-# Initialize the Cerebras client with the API key
 client = Cerebras(api_key="csk-pc39jkypw585669k943fm2d8ekx5jwpmddydedk9vcxk35xx")
 
 def get_cerebras_response(user_message):
     try:
-        # Create a chat completion request with the desired model
+
         chat_completion = client.chat.completions.create(
-            model="llama3.1-8b",  # Adjust model name as needed
+            model="llama3.1-8b", 
             messages=[
                 {"role": "user", "content": user_message},
             ]
         )
-        # Access the response content correctly
+
         response_content = chat_completion.choices[0].message.content
         return response_content
     except Exception as e:
